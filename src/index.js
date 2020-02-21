@@ -1,16 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import { Provider } from 'react-redux';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Auth0Provider } from 'react-auth0-spa';
+import config from 'auth_config';
+import history from 'utils/history';
 import App from './App';
 import store from './store';
-import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
+
+const onRedirectCallback = (appState) => {
+  history.push(
+    appState && appState.targetUrl
+      ? appState.targetUrl
+      : window.location.pathname,
+  );
+};
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Auth0Provider
+      domain={config.domain}
+      client_id={config.clientId}
+      redirect_uri={window.location.origin}
+      onRedirectCallback={onRedirectCallback}
+    >
+      <App />
+    </Auth0Provider>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change

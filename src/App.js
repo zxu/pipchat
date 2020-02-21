@@ -1,58 +1,27 @@
 import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import { Col, Container, Row } from 'react-bootstrap';
 
-function App() {
+import NavBar from 'components/NavBar';
+import { useAuth0 } from 'react-auth0-spa';
+import styles from 'App.module.scss';
+
+const App = () => {
+  const { loading } = useAuth0();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+    <div>
+      <NavBar />
+      <Container className={styles.rootPane}>
+        {loading && <div>Loading...</div>}
+        {!loading
+          && (
+          <Row>
+            <Col>User List</Col>
+            <Col xs={8}>Chats</Col>
+          </Row>
+          )}
+      </Container>
     </div>
   );
-}
+};
 
 export default App;
