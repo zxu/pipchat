@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import createAuth0Client from '@auth0/auth0-spa-js';
 
 const DEFAULT_REDIRECT_CALLBACK = () => window.history.replaceState({},
@@ -25,7 +25,7 @@ export const Auth0Provider = ({
 
       if (
         window.location.search.includes('code=')
-        && window.location.search.includes('state=')
+          && window.location.search.includes('state=')
       ) {
         const { appState } = await auth0FromHook.handleRedirectCallback();
         onRedirectCallback(appState);

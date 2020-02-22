@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 
-import NavBar from 'components/NavBar';
+import NavBar from 'features/navBar/NavBar';
 import { useAuth0 } from 'react-auth0-spa';
 import styles from 'App.module.scss';
 

@@ -1,13 +1,37 @@
-import React from 'react';
-import styles from 'components/NavBar/style.module.scss';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import styles from 'features/navBar/NavBar.module.scss';
 import {
   Button, Col, Container, Row,
 } from 'react-bootstrap';
 import { useAuth0 } from 'react-auth0-spa';
+import { checkin } from 'features/session/sessionSlice';
 
 const NavBar = () => {
-  console.log('===================', useAuth0());
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  const {
+    isAuthenticated, loginWithRedirect, logout, getTokenSilently, user,
+  } = useAuth0();
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+
+    console.log('User', user);
+
+    async function fetchData() {
+      try {
+        const token = await getTokenSilently();
+        dispatch(checkin(token));
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchData().then((f) => f);
+  }, [user]);
   return (
     <Container>
       <Row className={`${styles.mainTitle} mx-auto`}>
