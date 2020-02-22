@@ -1,18 +1,17 @@
 import axios from 'axios';
-
-const host = (env) => (env === 'production'
-  ? 'https://pipchat.herokuapp.com'
-  : 'http://localhost:3001');
+import { baseURL } from 'utils/env';
 
 // eslint-disable-next-line import/prefer-default-export
-export const checkinWithServer = async (token) => {
-  const { data } = await axios.get(`${host(process.env.NODE_ENV)}/api/external`, {
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  });
+export const checkinWithServer = async ({ token, user }) => {
+  const { data } = await axios.post(`${baseURL(process.env.NODE_ENV)}/api/checkin`,
+    { user },
+    {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
   return data;
 };

@@ -24,7 +24,7 @@ const NavBar = () => {
     async function fetchData() {
       try {
         const token = await getTokenSilently();
-        dispatch(checkin(token));
+        dispatch(checkin({ token, user }));
       } catch (error) {
         console.error(error);
       }

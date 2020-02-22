@@ -23,15 +23,18 @@ export const slice = createSlice({
       state.peers = payload.peers;
       state.isLoading = false;
     },
+    wsConnected(state) {
+      state.wsConnected = true;
+    },
   },
 });
 
-export const { checkinStart, checkinFailure, checkinSuccess } = slice.actions;
+export const { checkinStart, checkinFailure, checkinSuccess, wsConnected } = slice.actions;
 
-export const checkin = (token) => async (dispatch) => {
+export const checkin = ({ token, user }) => async (dispatch) => {
   try {
     dispatch(checkinStart());
-    const data = await checkinWithServer(token);
+    const data = await checkinWithServer({ token, user });
     dispatch(checkinSuccess(data));
   } catch (err) {
     dispatch(checkinFailure(err.toString()));
