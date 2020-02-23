@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styles from 'features/navBar/NavBar.module.scss';
 import {
   Button, Col, Container, Row,
@@ -13,8 +13,6 @@ const NavBar = () => {
   } = useAuth0();
 
   const dispatch = useDispatch();
-  const peers = useSelector((state) => state.peers);
-  console.log('Peers....', peers);
 
   useEffect(() => {
     if (!user) {

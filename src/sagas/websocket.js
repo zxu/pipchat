@@ -89,8 +89,8 @@ const initWebsocket = () => eventChannel((emitter) => {
     console.log('ws data', data);
   });
 
-  socket.on('chat/invited', (data) => {
-    console.log('chat/invited', data);
+  socket.on('chat/message', (data) => {
+    console.log('chat/message', data);
   });
 
   return () => {
@@ -135,6 +135,11 @@ export function* watchOutboundWSMessages() {
       console.log('Checkin Success');
       const { payload: { self } } = action;
       yield call(sendMessage, { self });
+    }
+
+    if (action.type === send.type) {
+      console.log('Peer message');
+      yield call(sendMessage, action.payload);
     }
 
     // if (!savedSessionInfo) {
