@@ -5,6 +5,7 @@ import NavBar from 'features/navBar/NavBar';
 import { useAuth0 } from 'react-auth0-spa';
 import styles from 'App.module.scss';
 import MessageEditor from 'components/messageEditor/MessageEditor';
+import PeerList from 'components/peerList/PeerList';
 
 const App = () => {
   const { loading } = useAuth0();
@@ -16,7 +17,8 @@ const App = () => {
         {!loading
           && (
           <Row>
-            <Col><p>User List</p></Col>
+            {/*<Col><p>User List</p></Col>*/}
+            <Col><PeerList /></Col>
             <Col xs={8}>
               <Row className={styles.messages} />
               <Row className={styles.messageEditor}><MessageEditor /></Row>

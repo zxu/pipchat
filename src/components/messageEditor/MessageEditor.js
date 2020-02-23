@@ -1,14 +1,23 @@
 import React from 'react';
-import {Button, FormControl, InputGroup} from 'react-bootstrap';
-import styles from 'components/messageEditor/MessageEditor.module.scss';
+import { FormControl, InputGroup } from 'react-bootstrap';
 
 const MessageEditor = () => {
-  // console.log('here styles', styles.messageEditor);
+  const handleKeyPressed = (event) => {
+    if (event.key === 'Enter') {
+      console.log('Enter pressed');
+      event.preventDefault();
+      return;
+    }
+    console.log(event, event.keyCode);
+  };
   return (
-      <InputGroup className={styles.messageInput}>
-        <FormControl as="textarea" aria-label="message to send" />
-      </InputGroup>
+    <InputGroup>
+      <FormControl
+        as="textarea"
+        aria-label="message to send"
+        onKeyPress={handleKeyPressed}
+      />
+    </InputGroup>
   );
 };
-
 export default MessageEditor;

@@ -2,7 +2,7 @@ import { eventChannel } from 'redux-saga';
 import { call, put, take } from 'redux-saga/effects';
 import io from 'socket.io-client';
 import { baseURL } from 'utils/env';
-import { wsConnected } from 'features/session/sessionSlice';
+import { checkinSuccess, wsConnected, send } from 'features/session/sessionSlice';
 
 // import { GAME } from 'actions/types';
 // import { gameJoined, serverConnected } from 'actions';
@@ -71,8 +71,14 @@ import { wsConnected } from 'features/session/sessionSlice';
 // }
 //
 
+let socket;
+
+const sendMessage = ({ self, peer, message }) => {
+  socket.emit('chat/message', { self, peer, message });
+};
+
 const initWebsocket = () => eventChannel((emitter) => {
-  const socket = io(baseURL(process.env.NODE_ENV));
+  socket = io(baseURL(process.env.NODE_ENV));
 
   socket.on('connect', () => {
     console.log('Connected');
@@ -121,9 +127,15 @@ export function* watchInboundWSMessages() {
 
 export function* watchOutboundWSMessages() {
   while (true) {
-    const action = yield take(['conversations/checkinSuccess']);
+    const action = yield take([checkinSuccess, send]);
 
     console.log('Saga action', action);
+
+    if (action.type === checkinSuccess.type) {
+      console.log('Checkin Success');
+      const { payload: { self } } = action;
+      yield call(sendMessage, { self });
+    }
 
     // if (!savedSessionInfo) {
     //   savedSessionInfo = yield call(retrieveSessionInfo);

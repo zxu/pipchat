@@ -17,7 +17,7 @@
   color: darkslategrey;
   .loginButton {
     display: flex;
-    align-content: end;
+    align-content: flex-end;
     padding: 0;
     margin: 0.5rem 0;
     button {
@@ -31,8 +31,8 @@
     }
     @media (max-width: 1200px) {
       button {
-        font-size: 0.6rem;
-        min-width: 4rem;
+        font-size: calc(0.15rem + 1.8vw);
+        min-width: calc(4rem + 2.3vw);
       }
     }
   }

@@ -12,9 +12,10 @@ const loadingFailed = (state, action) => {
 };
 
 export const slice = createSlice({
-  name: 'conversations',
+  name: 'session',
   initialState: {
     peers: [],
+    peer: null,
   },
   reducers: {
     checkinStart: startLoading,
@@ -26,16 +27,25 @@ export const slice = createSlice({
     wsConnected(state) {
       state.wsConnected = true;
     },
+    choosePeer(state, { payload }) {
+      console.log('payload', payload);
+      state.peer = payload;
+    },
+    send(state, { payload }) {
+      console.log(payload);
+    },
   },
 });
 
-export const { checkinStart, checkinFailure, checkinSuccess, wsConnected } = slice.actions;
+export const {
+  checkinStart, checkinFailure, checkinSuccess, wsConnected, choosePeer, send,
+} = slice.actions;
 
 export const checkin = ({ token, user }) => async (dispatch) => {
   try {
     dispatch(checkinStart());
     const data = await checkinWithServer({ token, user });
-    dispatch(checkinSuccess(data));
+    dispatch(checkinSuccess({...data, self: user.sub}));
   } catch (err) {
     dispatch(checkinFailure(err.toString()));
   }
