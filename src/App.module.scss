@@ -2,17 +2,38 @@
 
 .rootPane {
   width: 100%;
-  //min-height: 600px;
+  > div {
+    > div {
+      border-radius: .25rem;
+      height: calc(100vh - 4rem);
+      padding: 0;
+      .messages {
+        height: calc(100% - 4em);
+        margin: 0 2px 2px 2px;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+      }
 
-  div {
-    div {
-      border: 1px solid darkgrey;
-      border-radius: 2px;
-      min-height: calc(100vh - 4.5em);
+      .messageEditor {
+        height: 3em;
+        margin: 0 2px auto 2px;
+      }
     }
 
-    div:first-of-type {
-      margin-right: 2px;
+    > div:first-of-type {
+      border: 1px solid #ced4da;
+      margin-right: 1px;
+      display: flex;
+      p {
+        margin: auto;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 1200px) {
+      > div {
+        height: calc(100vh - 3rem);
+      }
     }
   }
 }

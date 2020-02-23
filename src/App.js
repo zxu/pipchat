@@ -4,6 +4,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import NavBar from 'features/navBar/NavBar';
 import { useAuth0 } from 'react-auth0-spa';
 import styles from 'App.module.scss';
+import MessageEditor from 'components/messageEditor/MessageEditor';
 
 const App = () => {
   const { loading } = useAuth0();
@@ -15,8 +16,11 @@ const App = () => {
         {!loading
           && (
           <Row>
-            <Col>User List</Col>
-            <Col xs={8}>Chats</Col>
+            <Col><p>User List</p></Col>
+            <Col xs={8}>
+              <Row className={styles.messages} />
+              <Row className={styles.messageEditor}><MessageEditor /></Row>
+            </Col>
           </Row>
           )}
       </Container>

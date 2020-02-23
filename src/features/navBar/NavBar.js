@@ -34,9 +34,9 @@ const NavBar = () => {
   }, [user]);
   return (
     <Container>
-      <Row className={`${styles.mainTitle} mx-auto`}>
+      <Row className={`${styles.navBar} mx-auto`}>
         <Col xs={2} />
-        <Col xs={8}>Welcome to PipChat</Col>
+        <Col xs={8} className={styles.title}>Welcome to PipChat</Col>
         <Col xs={2} className={`${styles.loginButton}`}>
           {!isAuthenticated && (
             <Button

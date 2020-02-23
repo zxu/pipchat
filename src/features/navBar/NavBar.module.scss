@@ -1,12 +1,39 @@
-.mainTitle {
-  text-align: center;
-  min-height: 2em;
-  line-height: 2em;
-  font-family: 'Baloo Da', cursive;
-  font-size: 2em;
-  color: darkslategrey;
+.navBar {
+  display: flex;
+  .title {
+    margin: auto;
+    text-align: center;
+    font-size: 2rem;
+  }
 
+  @media (max-width: 1200px) {
+    .title {
+      font-size: calc(0.425rem + 3.3vw);
+    }
+  }
+
+  font-family: 'Baloo Da', cursive;
+
+  color: darkslategrey;
   .loginButton {
-    text-align: right;
+    display: flex;
+    align-content: end;
+    padding: 0;
+    margin: 0.5rem 0;
+    button {
+      //padding: 0.2rem auto;
+      margin: auto 0 auto auto;
+      min-width: 6rem;
+      text-align: center;
+      font-size: 1rem;
+
+
+    }
+    @media (max-width: 1200px) {
+      button {
+        font-size: 0.6rem;
+        min-width: 4rem;
+      }
+    }
   }
 }

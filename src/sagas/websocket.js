@@ -1,8 +1,8 @@
-import {eventChannel} from 'redux-saga';
-import {call, put, take} from 'redux-saga/effects';
+import { eventChannel } from 'redux-saga';
+import { call, put, take } from 'redux-saga/effects';
 import io from 'socket.io-client';
-import {baseURL} from 'utils/env';
-import {wsConnected} from 'features/session/sessionSlice';
+import { baseURL } from 'utils/env';
+import { wsConnected } from 'features/session/sessionSlice';
 
 // import { GAME } from 'actions/types';
 // import { gameJoined, serverConnected } from 'actions';
@@ -71,40 +71,46 @@ import {wsConnected} from 'features/session/sessionSlice';
 // }
 //
 
-const initWebsocket = () => {
-  return eventChannel((emitter) => {
-    const socket = io(baseURL(process.env.NODE_ENV));
+const initWebsocket = () => eventChannel((emitter) => {
+  const socket = io(baseURL(process.env.NODE_ENV));
 
-    socket.on('connect', () => {
-      console.log('Connected');
-      emitter(wsConnected());
-    });
-
-    return () => {
-      socket.close();
-    };
+  socket.on('connect', () => {
+    console.log('Connected');
+    emitter(wsConnected());
   });
-};
+
+  socket.on('welcome', (data) => {
+    console.log('ws data', data);
+  });
+
+  socket.on('chat/invited', (data) => {
+    console.log('chat/invited', data);
+  });
+
+  return () => {
+    socket.close();
+  };
+});
 
 export function* watchInboundWSMessages() {
   const channel = yield call(initWebsocket);
   while (true) {
     const action = yield take(channel);
     switch (action.type) {
-        // case GAME.GAME_JOINED: {
-        //   const session = {
-        //     ...action,
-        //     sessionID: parseInt(action.sessionID, 10),
-        //     player: parseInt(action.player, 10),
-        //   };
-        //   yield call(saveSessionInfo, session);
-        //   yield put(gameJoined(session));
-        //   break;
-        // }
-        // case GAME.CONNECTED:
-        //   console.log('Connection state changed.');
-        //   yield put(serverConnected(action.connected));
-        //   break;
+      // case GAME.GAME_JOINED: {
+      //   const session = {
+      //     ...action,
+      //     sessionID: parseInt(action.sessionID, 10),
+      //     player: parseInt(action.player, 10),
+      //   };
+      //   yield call(saveSessionInfo, session);
+      //   yield put(gameJoined(session));
+      //   break;
+      // }
+      // case GAME.CONNECTED:
+      //   console.log('Connection state changed.');
+      //   yield put(serverConnected(action.connected));
+      //   break;
       default: {
         console.log('ws channel action', action);
         yield put(action);
