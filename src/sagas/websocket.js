@@ -1,16 +1,19 @@
 import { eventChannel } from 'redux-saga';
 import {
-  call, put, take, all,
+  all, call, put, take,
 } from 'redux-saga/effects';
 import io from 'socket.io-client';
 import { baseURL } from 'utils/env';
 import {
-  checkinSuccess, wsConnected, receivePeerList, reCheckin, choosePeer,
+  checkinSuccess,
+  choosePeer,
+  receivedPublicKey,
+  receivePeerList,
+  reCheckin,
+  wsConnected,
 } from 'features/session/sessionSlice';
-import {
-  send, receive, sendPublicKey,
-} from 'features/chat/chatSlice';
-import {decodeKey} from 'utils/helpers';
+import { receive, send, sendPublicKey } from 'features/chat/chatSlice';
+import { decodeKey } from 'utils/helpers';
 
 // import { GAME } from 'actions/types';
 // import { gameJoined, serverConnected } from 'actions';
@@ -129,13 +132,16 @@ export function* watchInboundWSMessages() {
       case receive.type: {
         const { payload: { self: peer, request, publicKey } } = action;
         console.log('Received message from', peer, action);
-        if (request && request === 'key') {
+        if (request && publicKey) {
           // Peer asking for public key
-          if (publicKey) {
+          if (request === 'keyResponse') {
             console.log('Received public key', publicKey);
             console.log('Decoded public key', decodeKey(publicKey));
+            yield put(receivedPublicKey({ peer, publicKey }));
           } else {
-            yield put(sendPublicKey({ peer }));
+            yield all([
+              put(receivedPublicKey({ peer, publicKey })),
+              put(sendPublicKey({ peer }))]);
           }
         } else {
           yield all([put(choosePeer(peer)), put(action)]);

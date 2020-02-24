@@ -47,12 +47,19 @@ export const slice = createSlice({
     saveKeyPair(state, { payload }) {
       state.keyPair = payload.keyPair;
     },
+    receivedPublicKey(state, { payload }) {
+      const { peer, publicKey } = payload;
+      const peerToUpdate = state.peers.find((p) => p.id === peer);
+      if (peerToUpdate) {
+        peerToUpdate.publicKey = publicKey;
+      }
+    },
   },
 });
 
 export const {
   checkinStart, checkinFailure, checkinSuccess, wsConnected, choosePeer,
-  send, receivePeerList, loginSuccess, saveKeyPair,
+  send, receivePeerList, loginSuccess, saveKeyPair, receivedPublicKey,
 } = slice.actions;
 
 export const checkin = ({ token, user }) => async (dispatch) => {
