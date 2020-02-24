@@ -18,6 +18,7 @@ export const slice = createSlice({
     peer: null,
     user: null,
     token: null,
+    keyPair: {},
   },
   reducers: {
     checkinStart: startLoading,
@@ -38,11 +39,20 @@ export const slice = createSlice({
     receivePeerList(state, { payload }) {
       state.peers = payload.peers;
     },
+    // eslint-disable-next-line no-unused-vars
+    loginSuccess(state, { payload }) {
+      // This action doesn't need to mutate the state.
+      // It's just a signal to trigger the generation of key pairs.
+    },
+    saveKeyPair(state, { payload }) {
+      state.keyPair = payload.keyPair;
+    },
   },
 });
 
 export const {
-  checkinStart, checkinFailure, checkinSuccess, wsConnected, choosePeer, send, receivePeerList,
+  checkinStart, checkinFailure, checkinSuccess, wsConnected, choosePeer,
+  send, receivePeerList, loginSuccess, saveKeyPair,
 } = slice.actions;
 
 export const checkin = ({ token, user }) => async (dispatch) => {
@@ -67,4 +77,5 @@ export const reCheckin = () => async (dispatch, getState) => {
     }
   }
 };
+
 export default slice.reducer;

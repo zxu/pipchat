@@ -5,7 +5,7 @@ import {
   Button, Col, Container, Row,
 } from 'react-bootstrap';
 import { useAuth0 } from 'react-auth0-spa';
-import { checkin } from 'features/session/sessionSlice';
+import { checkin, loginSuccess } from 'features/session/sessionSlice';
 
 const NavBar = () => {
   const {
@@ -29,6 +29,9 @@ const NavBar = () => {
         console.error(error);
       }
     }
+
+    // We will generate key pairs upon successful logging in
+    dispatch(loginSuccess());
 
     fetchData().then((f) => f);
   }, [user]);

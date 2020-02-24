@@ -1,7 +1,12 @@
 .peer {
   margin: 4px;
   border: 1px dotted #39403C;
+  border-radius: .25rem;
   padding: 0.4em 1em;
-  background-color: #ACC1B7;
   color: #39403C;
+  cursor: pointer;
+}
+
+.selected {
+  background-color: #ACC1B7;
 }

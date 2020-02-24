@@ -119,20 +119,6 @@ export function* watchInboundWSMessages() {
   while (true) {
     const action = yield take(channel);
     switch (action.type) {
-      // case GAME.GAME_JOINED: {
-      //   const session = {
-      //     ...action,
-      //     sessionID: parseInt(action.sessionID, 10),
-      //     player: parseInt(action.player, 10),
-      //   };
-      //   yield call(saveSessionInfo, session);
-      //   yield put(gameJoined(session));
-      //   break;
-      // }
-      // case GAME.CONNECTED:
-      //   console.log('Connection state changed.');
-      //   yield put(serverConnected(action.connected));
-      //   break;
       case receive.type: {
         const { payload: { self: peer } } = action;
         console.log('Received message from', peer);
