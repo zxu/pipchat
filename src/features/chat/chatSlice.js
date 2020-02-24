@@ -80,6 +80,10 @@ export const sendPublicKey = ({ peer }) => async (dispatch, getState) => {
 };
 
 export const sendMessage = ({ self, peer, message }) => async (dispatch, getState) => {
+
+};
+
+export const exchangeKeys = ({ self, peer }) => async (dispatch, getState) => {
   const publicKey = fetchPeerPublicKey(getState(), peer);
   if (!publicKey) {
     // Sending own public key along with the request for the peer's key
