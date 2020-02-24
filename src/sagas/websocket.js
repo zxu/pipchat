@@ -2,7 +2,8 @@ import { eventChannel } from 'redux-saga';
 import { call, put, take } from 'redux-saga/effects';
 import io from 'socket.io-client';
 import { baseURL } from 'utils/env';
-import { checkinSuccess, wsConnected, send, receivePeerList, reCheckin } from 'features/session/sessionSlice';
+import { checkinSuccess, wsConnected, receivePeerList, reCheckin } from 'features/session/sessionSlice';
+import { send, receive } from 'features/chat/chatSlice';
 
 // import { GAME } from 'actions/types';
 // import { gameJoined, serverConnected } from 'actions';
@@ -101,6 +102,7 @@ const initWebsocket = () => eventChannel((emitter) => {
 
   socket.on('chat/message', (data) => {
     console.log('chat/message', data);
+    emitter(receive(data));
   });
 
   return () => {

@@ -35,9 +35,6 @@ export const slice = createSlice({
       console.log('payload', payload);
       state.peer = payload;
     },
-    send(state, { payload }) {
-      console.log(payload);
-    },
     receivePeerList(state, { payload }) {
       state.peers = payload.peers;
     },

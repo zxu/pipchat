@@ -2,7 +2,7 @@ import React from 'react';
 import { FormControl, InputGroup } from 'react-bootstrap';
 import { useAuth0 } from 'react-auth0-spa';
 import { useDispatch, useSelector } from 'react-redux';
-import { send } from 'features/session/sessionSlice';
+import { send } from 'features/chat/chatSlice';
 
 
 const MessageEditor = () => {
