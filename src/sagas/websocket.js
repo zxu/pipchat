@@ -1,8 +1,12 @@
 import { eventChannel } from 'redux-saga';
-import { call, put, take } from 'redux-saga/effects';
+import {
+  call, put, take, all,
+} from 'redux-saga/effects';
 import io from 'socket.io-client';
 import { baseURL } from 'utils/env';
-import { checkinSuccess, wsConnected, receivePeerList, reCheckin } from 'features/session/sessionSlice';
+import {
+  checkinSuccess, wsConnected, receivePeerList, reCheckin, choosePeer,
+} from 'features/session/sessionSlice';
 import { send, receive } from 'features/chat/chatSlice';
 
 // import { GAME } from 'actions/types';
@@ -129,6 +133,12 @@ export function* watchInboundWSMessages() {
       //   console.log('Connection state changed.');
       //   yield put(serverConnected(action.connected));
       //   break;
+      case receive.type: {
+        const { payload: { self: peer } } = action;
+        console.log('Received message from', peer);
+        yield all([put(choosePeer(peer)), put(action)]);
+      }
+        break;
       default: {
         console.log('ws channel action', action);
         yield put(action);
