@@ -7,7 +7,10 @@ import { baseURL } from 'utils/env';
 import {
   checkinSuccess, wsConnected, receivePeerList, reCheckin, choosePeer,
 } from 'features/session/sessionSlice';
-import { send, receive } from 'features/chat/chatSlice';
+import {
+  send, receive, sendPublicKey,
+} from 'features/chat/chatSlice';
+import {decodeKey} from 'utils/helpers';
 
 // import { GAME } from 'actions/types';
 // import { gameJoined, serverConnected } from 'actions';
@@ -78,8 +81,12 @@ import { send, receive } from 'features/chat/chatSlice';
 
 let socket;
 
-const sendMessage = ({ self, peer, message }) => {
-  socket.emit('chat/message', { self, peer, message });
+const sendMessage = ({
+  self, peer, message, request, publicKey,
+}) => {
+  socket.emit('chat/message', {
+    self, peer, message, request, publicKey,
+  });
 };
 
 const initWebsocket = () => eventChannel((emitter) => {
@@ -120,9 +127,19 @@ export function* watchInboundWSMessages() {
     const action = yield take(channel);
     switch (action.type) {
       case receive.type: {
-        const { payload: { self: peer } } = action;
-        console.log('Received message from', peer);
-        yield all([put(choosePeer(peer)), put(action)]);
+        const { payload: { self: peer, request, publicKey } } = action;
+        console.log('Received message from', peer, action);
+        if (request && request === 'key') {
+          // Peer asking for public key
+          if (publicKey) {
+            console.log('Received public key', publicKey);
+            console.log('Decoded public key', decodeKey(publicKey));
+          } else {
+            yield put(sendPublicKey({ peer }));
+          }
+        } else {
+          yield all([put(choosePeer(peer)), put(action)]);
+        }
       }
         break;
       default: {
@@ -149,6 +166,10 @@ export function* watchOutboundWSMessages() {
       console.log('Peer message');
       yield call(sendMessage, action.payload);
     }
+
+    // if (action.type === requestPublicKey.type) {
+    //   yield call(sendMessage, { ...action.payload, request: 'key' });
+    // }
 
     // if (!savedSessionInfo) {
     //   savedSessionInfo = yield call(retrieveSessionInfo);
