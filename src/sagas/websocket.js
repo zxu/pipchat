@@ -2,7 +2,7 @@ import { eventChannel } from 'redux-saga';
 import { call, put, take } from 'redux-saga/effects';
 import io from 'socket.io-client';
 import { baseURL } from 'utils/env';
-import { checkinSuccess, wsConnected, send } from 'features/session/sessionSlice';
+import { checkinSuccess, wsConnected, send, receivePeerList, reCheckin } from 'features/session/sessionSlice';
 
 // import { GAME } from 'actions/types';
 // import { gameJoined, serverConnected } from 'actions';
@@ -85,8 +85,18 @@ const initWebsocket = () => eventChannel((emitter) => {
     emitter(wsConnected());
   });
 
+  socket.on('connect', () => {
+    console.log('Connected and re-checkin');
+    setTimeout(() => {
+      emitter(reCheckin());
+    }, Math.random() * 10000);
+  });
+
   socket.on('welcome', (data) => {
     console.log('ws data', data);
+    if ('peers' in data) {
+      emitter(receivePeerList(data));
+    }
   });
 
   socket.on('chat/message', (data) => {
@@ -133,8 +143,8 @@ export function* watchOutboundWSMessages() {
 
     if (action.type === checkinSuccess.type) {
       console.log('Checkin Success');
-      const { payload: { self } } = action;
-      yield call(sendMessage, { self });
+      const { payload: { user } } = action;
+      yield call(sendMessage, { self: user.sub });
     }
 
     if (action.type === send.type) {

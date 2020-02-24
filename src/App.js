@@ -6,11 +6,15 @@ import { useAuth0 } from 'react-auth0-spa';
 import styles from 'App.module.scss';
 import MessageEditor from 'components/messageEditor/MessageEditor';
 import PeerList from 'components/peerList/PeerList';
+import {useDispatch} from 'react-redux';
+import { reCheckin } from 'features/session/sessionSlice';
+
 
 const App = () => {
-  const { loading } = useAuth0();
+  const { loading, user } = useAuth0();
+  const dispatch = useDispatch();
   return (
-    <div>
+    <div onClick={() => dispatch(reCheckin())}>
       <NavBar />
       <Container className={styles.rootPane}>
         {loading && <div>Loading...</div>}
@@ -18,7 +22,7 @@ const App = () => {
           && (
           <Row>
             {/*<Col><p>User List</p></Col>*/}
-            <Col><PeerList /></Col>
+            <Col>{user && <PeerList />}</Col>
             <Col xs={8}>
               <Row className={styles.messages} />
               <Row className={styles.messageEditor}><MessageEditor /></Row>
