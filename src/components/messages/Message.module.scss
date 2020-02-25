@@ -1,35 +1,27 @@
 .messageContainer {
-  margin: 0.25em auto;
+  margin: 0.5em;
   .message {
     display: inline-block;
-    //position: relative;
-    //font-weight: bold;
     padding: 0.5em;
     border: 1px dotted #ced4da;
     border-radius: .5rem;
     text-align: left;
-    //width: 50%;
+    p {
+      margin: 0.5em;
+    }
   }
 
   .message:hover {
-    //border: 1px dotted #ced4da;
     background-color: lightgray;
   }
 
   .self {
-    //text-align: left;
-    //float: left;
-    color: blue;
-    //left: 0;
+    background-color: #F6FFFA;
   }
 
   .peer {
-    //text-align: right;
-    //float: right;
-    color: green;
-    //right: 0;
     margin: auto 0 auto auto;
-    //margin-left: auto;
+    background-color: #FEF3F1;
   }
 }
 

@@ -19,7 +19,6 @@ const Message = (props) => {
           : styles.peer}`}
         dangerouslySetInnerHTML={createMarkup(message)}
       />
-      <br />
     </div>
   );
 };
