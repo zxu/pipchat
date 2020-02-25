@@ -2,7 +2,7 @@ import React from 'react';
 import { FormControl, InputGroup } from 'react-bootstrap';
 import { useAuth0 } from 'react-auth0-spa';
 import { useDispatch, useSelector } from 'react-redux';
-import { send, exchangeKeys } from 'features/chat/chatSlice';
+import { send, sendMessage } from 'features/chat/chatSlice';
 
 const MessageEditor = () => {
   const { user } = useAuth0();
@@ -19,7 +19,8 @@ const MessageEditor = () => {
       } else {
         console.log('Enter pressed', event.target.value);
         event.preventDefault();
-        dispatch(send({ self: user.sub, peer, message: event.target.value }));
+        // dispatch(send({ self: user.sub, peer, message: event.target.value }));
+        dispatch(sendMessage({ self: user.sub, peer, message: event.target.value }));
       }
     }
   };

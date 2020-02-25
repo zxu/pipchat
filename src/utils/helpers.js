@@ -5,7 +5,9 @@ import {
   encodeUTF8,
 } from 'tweetnacl-util';
 
-export const encodeKey = (keyPair) => encodeBase64(decodeUTF8(JSON.stringify(keyPair)));
+export const encodeKey = (keyPair) => encodeBase64(
+  decodeUTF8(JSON.stringify(keyPair)),
+);
 
 export const decodeKeyPair = (encodedKeyPair) => {
   const decoded = JSON.parse(encodeUTF8(decodeBase64(encodedKeyPair)));
@@ -16,4 +18,6 @@ export const decodeKeyPair = (encodedKeyPair) => {
   return decoded;
 };
 
-export const decodeKey = (key) => JSON.parse(encodeUTF8(decodeBase64(key)));
+export const decodeKey = (key) => new Uint8Array(
+  Object.values(JSON.parse(encodeUTF8(decodeBase64(key)))),
+);

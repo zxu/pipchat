@@ -12,7 +12,7 @@ import {
   reCheckin,
   wsConnected,
 } from 'features/session/sessionSlice';
-import { receive, send, sendPublicKey } from 'features/chat/chatSlice';
+import { receive, send, sendPublicKey, receiveMessage } from 'features/chat/chatSlice';
 import { decodeKey } from 'utils/helpers';
 
 // import { GAME } from 'actions/types';
@@ -85,10 +85,14 @@ import { decodeKey } from 'utils/helpers';
 let socket;
 
 const sendMessage = ({
-  self, peer, message, request, publicKey,
+  self, peer, message, request, publicKey, encryptedMessage,
 }) => {
+  if (encryptedMessage && message) {
+    // eslint-disable-next-line no-param-reassign
+    message = encryptedMessage;
+  }
   socket.emit('chat/message', {
-    self, peer, message, request, publicKey,
+    self, peer, message, request, publicKey, encrypted: !!encryptedMessage,
   });
 };
 
@@ -144,7 +148,8 @@ export function* watchInboundWSMessages() {
               put(sendPublicKey({ peer }))]);
           }
         } else {
-          yield all([put(choosePeer(peer)), put(action)]);
+          // yield all([put(choosePeer(peer)), put(action)]);
+          yield all([put(choosePeer(peer)), put(receiveMessage(action.payload))]);
         }
       }
         break;
