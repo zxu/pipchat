@@ -33,11 +33,14 @@ export const slice = createSlice({
       state.wsConnected = true;
     },
     choosePeer(state, { payload }) {
-      console.log('payload', payload);
       state.peer = payload;
     },
     receivePeerList(state, { payload }) {
       state.peers = payload.peers;
+
+      // We need to clear out the previously selected peer, because its corresponding
+      // public key would have been lost when we receive a new peer list.
+      state.peer = null;
     },
     // eslint-disable-next-line no-unused-vars
     loginSuccess(state, { payload }) {

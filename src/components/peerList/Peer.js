@@ -10,7 +10,6 @@ const Peer = (props) => {
   const dispatch = useDispatch();
   const peer = useSelector((state) => state.session.peer);
   const self = useSelector((state) => state.session.user && state.session.user.sub);
-  console.log(choosePeer, choosePeer.toString());
 
   const handlePeerClick = () => {
     dispatch(choosePeer(id));

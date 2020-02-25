@@ -2,7 +2,7 @@ import React from 'react';
 import { FormControl, InputGroup } from 'react-bootstrap';
 import { useAuth0 } from 'react-auth0-spa';
 import { useDispatch, useSelector } from 'react-redux';
-import { send, sendMessage } from 'features/chat/chatSlice';
+import { sendMessage } from 'features/chat/chatSlice';
 
 const MessageEditor = () => {
   const { user } = useAuth0();
@@ -20,7 +20,8 @@ const MessageEditor = () => {
         console.log('Enter pressed', event.target.value);
         event.preventDefault();
         // dispatch(send({ self: user.sub, peer, message: event.target.value }));
-        dispatch(sendMessage({ self: user.sub, peer, message: event.target.value }));
+        const message = event.target.value;
+        dispatch(sendMessage({ self: user.sub, peer, message }));
       }
     }
   };
@@ -30,6 +31,7 @@ const MessageEditor = () => {
         as="textarea"
         aria-label="message to send"
         onKeyPress={handleKeyPressed}
+        disabled={!peer}
       />
     </InputGroup>
   );

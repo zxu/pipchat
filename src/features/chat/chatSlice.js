@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 import { decodeKey, decodeKeyPair, encodeKey } from 'utils/helpers';
-import { decrypt, encrypt } from 'utils/encryption';
+import { decrypt, encrypt } from 'utils/encryption.ts';
 
 export const slice = createSlice({
   name: 'chat',
@@ -10,8 +10,9 @@ export const slice = createSlice({
   },
   reducers: {
     send(state, { payload }) {
-      console.log(payload);
-
+      if (!('message' in payload)) {
+        return;
+      }
       const { peer } = payload;
       if (!(peer in state.conversation)) {
         state.conversation[peer] = [];
@@ -19,6 +20,9 @@ export const slice = createSlice({
       state.conversation[peer].push(payload);
     },
     receive(state, { payload }) {
+      if (!('message' in payload)) {
+        return;
+      }
       const { self: peer } = payload;
       if (!(peer in state.conversation)) {
         state.conversation[peer] = [];
@@ -52,7 +56,6 @@ const fetchPeerPublicKey = (state, peer) => {
  */
 const fetchPublicKey = (state) => {
   const { session: { keyPair } } = state;
-
   const { publicKey } = decodeKeyPair(keyPair);
 
   return publicKey;
@@ -65,15 +68,10 @@ const fetchPublicKey = (state) => {
  */
 const fetchKeys = (state) => {
   const { session: { keyPair } } = state;
-
   const { publicKey, secretKey } = decodeKeyPair(keyPair);
 
   return { publicKey, secretKey };
 };
-
-// export const requestPublicKey = ({ peer }) => async (dispatch, getState) => {
-//   console.log('Requesting peer\'s public key');
-// };
 
 export const {
   send, receive,
@@ -85,13 +83,8 @@ export const {
  * @returns {Function}
  */
 export const sendPublicKey = ({ peer }) => async (dispatch, getState) => {
-  console.log('Was asked to send public key');
   const { session: { user: { sub: self }, keyPair } } = getState();
   const { publicKey } = decodeKeyPair(keyPair);
-
-  console.log('********************* original key', publicKey);
-  console.log('********************* encoded key', encodeKey(publicKey));
-  console.log('********************* decoded key', decodeKey(encodeKey(publicKey)));
 
   dispatch(send({
     self, peer, publicKey: encodeKey(publicKey), request: 'keyResponse',
@@ -102,7 +95,7 @@ export const sendMessage = ({ self, peer, message }) => async (dispatch, getStat
   const { secretKey } = fetchKeys(getState());
   const publicKey = fetchPeerPublicKey(getState(), peer);
 
-  console.log('==========================', decodeKey(publicKey));
+  console.log('public key: ', publicKey);
 
   const encryptedMessage = encrypt(secretKey, message, decodeKey(publicKey));
   dispatch(send({
@@ -113,10 +106,7 @@ export const sendMessage = ({ self, peer, message }) => async (dispatch, getStat
 export const receiveMessage = ({ self, message, encrypted }) => async (dispatch, getState) => {
   if (encrypted) {
     const { secretKey } = fetchKeys(getState());
-    console.log('********************* peer', self);
     const publicKey = fetchPeerPublicKey(getState(), self);
-    console.log('************************ peer public key', publicKey);
-    console.log('************************ peer public key decoded', decodeKey(publicKey));
     message = decrypt(secretKey, message, decodeKey(publicKey));
   }
   dispatch(receive({ self, message }));

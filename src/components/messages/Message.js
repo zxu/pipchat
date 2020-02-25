@@ -7,8 +7,17 @@ const Message = (props) => {
   const self = useSelector((state) => state.session.user && state.session.user.sub);
   const { data: { self: sender, message } } = props;
   return (
-    <div className={`${styles.message} ${self === sender ? styles.self : styles.peer}`}>
-      {message}
+    <div className={`${styles.messageContainer} ${self === sender
+      ? styles.self
+      : styles.peer}`}
+    >
+      <div className={`${styles.message} ${self === sender
+        ? styles.self
+        : styles.peer}`}
+      >
+        {message}
+      </div>
+      <br />
     </div>
   );
 };

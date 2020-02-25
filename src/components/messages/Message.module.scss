@@ -1,20 +1,38 @@
-.message {
-  font-weight: bold;
-  padding: 1em 0.5em;
-}
+.messageContainer {
+  margin: 1em auto;
+  .message {
+    display: inline-block;
+    //position: relative;
+    font-weight: bold;
+    padding: 0.5em;
+    border: 1px dotted #ced4da;
+    border-radius: .5rem;
+    text-align: left;
+    //width: 50%;
+  }
 
-.message:hover {
-  border: 1px dotted #ced4da;
-  border-radius: .5rem;
-  background-color: lightgray;
-}
+  .message:hover {
+    //border: 1px dotted #ced4da;
+    background-color: lightgray;
+  }
 
-.self {
-  text-align: left;
-  color: blue;
+  .self {
+    //text-align: left;
+    //float: left;
+    color: blue;
+    //left: 0;
+  }
+
+  .peer {
+    //text-align: right;
+    //float: right;
+    color: green;
+    //right: 0;
+    margin: auto 0 auto auto;
+    //margin-left: auto;
+  }
 }
 
 .peer {
   text-align: right;
-  color: green;
 }

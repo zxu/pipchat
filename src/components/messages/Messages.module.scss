@@ -1,4 +1,6 @@
 .messages {
   width: 100%;
   margin: 0.5em 0.25em;
+  overflow-y: auto;
+  max-height: calc(100% - 12px);
 }
