@@ -3,6 +3,7 @@
 .rootPane {
   width: 100%;
   > div {
+    flex-wrap: nowrap;
     > div {
       border-radius: .25rem;
       height: calc(100vh - 4rem);

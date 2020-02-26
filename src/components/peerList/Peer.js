@@ -22,7 +22,8 @@ const Peer = (props) => {
       className={`${styles.peer} ${id === peer ? styles.selected : ''}`}
       onClick={handlePeerClick}
     >
-      {name}
+      <div className={styles.name}>{name}</div>
+      <div className={styles.sub}>{id}</div>
     </div>
   );
 };

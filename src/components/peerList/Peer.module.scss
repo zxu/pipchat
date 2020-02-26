@@ -5,6 +5,15 @@
   padding: 0.4em 1em;
   color: #39403C;
   cursor: pointer;
+
+  .name {
+    font-size: 1.2em;
+  }
+
+  .sub {
+    font-size: 0.8em;
+    font-family: 'Courier New', Courier, monospace;
+  }
 }
 
 .selected {
