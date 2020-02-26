@@ -7,17 +7,19 @@ export const slice = createSlice({
   name: 'chat',
   initialState: {
     conversation: {},
+    sendQueue: {},
   },
   reducers: {
     send(state, { payload }) {
       if (!('message' in payload)) {
         return;
       }
-      const { peer } = payload;
+      const { peer, id } = payload;
       if (!(peer in state.conversation)) {
         state.conversation[peer] = [];
       }
       state.conversation[peer].push(payload);
+      state.sendQueue[id] = false;
     },
     receive(state, { payload }) {
       if (!('message' in payload)) {
@@ -28,6 +30,12 @@ export const slice = createSlice({
         state.conversation[peer] = [];
       }
       state.conversation[peer].push(payload);
+    },
+    receiveAck(state, { payload }) {
+      console.log('Acknowledge received', payload);
+      if (payload.id) {
+        state.sendQueue[payload.id] = true;
+      }
     },
   },
 });
@@ -74,7 +82,7 @@ const fetchKeys = (state) => {
 };
 
 export const {
-  send, receive,
+  send, receive, receiveAck,
 } = slice.actions;
 
 /**
@@ -91,7 +99,9 @@ export const sendPublicKey = ({ peer }) => async (dispatch, getState) => {
   }));
 };
 
-export const sendMessage = ({ self, peer, message }) => async (dispatch, getState) => {
+export const sendMessage = ({
+  self, peer, message, id,
+}) => async (dispatch, getState) => {
   const { secretKey } = fetchKeys(getState());
   const publicKey = fetchPeerPublicKey(getState(), peer);
 
@@ -99,7 +109,7 @@ export const sendMessage = ({ self, peer, message }) => async (dispatch, getStat
 
   const encryptedMessage = encrypt(secretKey, message, decodeKey(publicKey));
   dispatch(send({
-    self, peer, message, encryptedMessage,
+    self, peer, message, encryptedMessage, id,
   }));
 };
 

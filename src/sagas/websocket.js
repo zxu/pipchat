@@ -17,19 +17,20 @@ import {
   receiveMessage,
   send,
   sendPublicKey,
+  receiveAck,
 } from 'features/chat/chatSlice';
 
 let socket;
 
 const sendMessage = ({
-  self, peer, message, request, publicKey, encryptedMessage,
+  self, peer, message, request, publicKey, encryptedMessage, id,
 }) => {
   if (encryptedMessage && message) {
     // eslint-disable-next-line no-param-reassign
     message = encryptedMessage;
   }
   socket.emit('chat/message', {
-    self, peer, message, request, publicKey, encrypted: !!encryptedMessage,
+    self, peer, message, request, publicKey, encrypted: !!encryptedMessage, id,
   });
 };
 
@@ -54,6 +55,10 @@ const initWebsocket = () => eventChannel((emitter) => {
 
   socket.on('chat/message', (data) => {
     emitter(receive(data));
+  });
+
+  socket.on('chat/ack', (data) => {
+    emitter(receiveAck(data));
   });
 
   return () => {
