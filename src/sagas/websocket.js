@@ -84,6 +84,7 @@ export function* watchInboundWSMessages() {
           }
         } else {
           // yield all([put(choosePeer(peer)), put(action)]);
+          console.log('Received incoming message', action);
           yield all(
             [put(choosePeer(peer)), put(receiveMessage(action.payload))],
           );

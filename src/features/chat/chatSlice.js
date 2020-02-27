@@ -2,6 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { decodeKey, decodeKeyPair, encodeKey } from 'utils/helpers';
 import { decrypt, encrypt } from 'utils/encryption.ts';
+import moment from 'moment';
 
 export const slice = createSlice({
   name: 'chat',
@@ -109,7 +110,7 @@ export const sendMessage = ({
 
   const encryptedMessage = encrypt(secretKey, message, decodeKey(publicKey));
   dispatch(send({
-    self, peer, message, encryptedMessage, id,
+    self, peer, message, encryptedMessage, id, timestamp: moment().format('LT'),
   }));
 };
 
@@ -119,7 +120,7 @@ export const receiveMessage = ({ self, message, encrypted }) => async (dispatch,
     const publicKey = fetchPeerPublicKey(getState(), self);
     message = decrypt(secretKey, message, decodeKey(publicKey));
   }
-  dispatch(receive({ self, message }));
+  dispatch(receive({ self, message, timestamp: moment().format('LT') }));
 };
 
 export const exchangeKeys = ({ self, peer }) => async (dispatch, getState) => {

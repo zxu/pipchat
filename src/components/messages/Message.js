@@ -5,7 +5,7 @@ import styles from './Message.module.scss';
 
 const Message = (props) => {
   const self = useSelector((state) => state.session.user && state.session.user.sub);
-  const { data: { self: sender, message } } = props;
+  const { data: { self: sender, message, timestamp } } = props;
   const createMarkup = (text) => ({ __html: text });
 
   return (
@@ -13,6 +13,7 @@ const Message = (props) => {
       ? styles.self
       : styles.peer}`}
     >
+      <div className={styles.timestamp}>{timestamp}</div>
       <div
         className={`${styles.message} ${self === sender
           ? styles.self
