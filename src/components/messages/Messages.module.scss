@@ -1,6 +1,17 @@
-.messages {
+.messagesContainer {
   width: 100%;
-  margin: 0.5em 0.25em;
-  overflow-y: auto;
-  max-height: calc(100% - 12px);
+  .title {
+    margin: 0;
+    width: 100%;
+    padding-left: 1em;
+    line-height: 3em;
+    border-bottom: 1px solid #ccc;
+    background-color: #eaecec;
+  }
+  .messages {
+    width: 100%;
+    margin: 0.5em 0.25em;
+    overflow-y: auto;
+    max-height: calc(100% - 12px);
+  }
 }

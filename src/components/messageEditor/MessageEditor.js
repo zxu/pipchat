@@ -43,6 +43,7 @@ const MessageEditor = () => {
       }
     }
   };
+  console.log(`***${text}====`);
   return (
     <div className={styles.editorContainer}>
       <ReactQuill
@@ -53,7 +54,7 @@ const MessageEditor = () => {
         readOnly={!peer}
         placeholder="Press Control + Enter key to send a message"
       />
-      <Toolbar handleSendMessage={handleSendMessage}/>
+      <Toolbar handleSendMessage={handleSendMessage} disabled={text.length === 0 || text === '<p><br></p>'} />
     </div>
   );
 };

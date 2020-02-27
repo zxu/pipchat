@@ -5,8 +5,9 @@ import styles from './Messages.module.scss';
 
 const Messages = () => {
   const peer = useSelector((state) => state.session.peer);
+  const peers = useSelector((state) => state.session.peers);
   const messages = useSelector(
-    (state) => state.chat.conversation && state.chat.conversation[peer] || [],
+    (state) => (state.chat.conversation && state.chat.conversation[peer]) || [],
   );
   const inputRef = useRef();
 
@@ -15,10 +16,13 @@ const Messages = () => {
   }, [messages]);
 
   return (
-    <div className={styles.messages} ref={inputRef}>
-      {messages.map(
-        (m, i) => <Message key={`${peer}-${i}`} data={m} />,
-      )}
+    <div className={styles.messagesContainer}>
+      {peer && peers && <div className={styles.title}>{`Conversation with ${peers.find((p) => p.id === peer).name}`}</div>}
+      <div className={styles.messages} ref={inputRef}>
+        {messages.map(
+          (m, i) => <Message key={`${peer}-${i}`} data={m} />,
+        )}
+      </div>
     </div>
   );
 };
