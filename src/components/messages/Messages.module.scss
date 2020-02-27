@@ -1,8 +1,11 @@
 .messagesContainer {
   width: 100%;
+  height: 100%;
+  //max-height: calc(100% - 12px);
   .title {
     margin: 0;
     width: 100%;
+    height: 3em;
     padding-left: 1em;
     line-height: 3em;
     border-bottom: 1px solid #ccc;
@@ -10,8 +13,9 @@
   }
   .messages {
     width: 100%;
-    margin: 0.5em 0.25em;
+    margin: 0;
+    padding-left: 0.5em;
     overflow-y: auto;
-    max-height: calc(100% - 12px);
+    max-height: calc(100% - 3em);
   }
 }
