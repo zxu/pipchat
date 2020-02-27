@@ -1,0 +1,14 @@
+.toolbarContainer {
+  display: flex;
+  position: absolute;
+  top: calc(100% - 3em);
+  right: 1em;
+  //bottom: 2em;
+  width: 100%;
+  justify-content: flex-end;
+  button {
+    width: 8em;
+    text-align: center;
+    margin: auto 4px auto auto;
+  }
+}

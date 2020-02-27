@@ -7,6 +7,7 @@ import { v4 as uuid } from 'uuid';
 import { sendMessage } from 'features/chat/chatSlice';
 import styles from './MessageEditor.module.scss';
 import './MessageEditor.scss';
+import Toolbar from 'components/toolbar/Toolbar';
 
 const MessageEditor = () => {
   const { user } = useAuth0();
@@ -26,27 +27,34 @@ const MessageEditor = () => {
 
   const handleChange = (value) => setText(value);
 
+  const handleSendMessage = () => {
+    const id = uuid();
+    dispatch(sendMessage({
+      self: user.sub, peer, message: text, id,
+    }));
+    setMessageID(id);
+  };
+
   const handleKeyPressed = (event) => {
     if (event.key === 'Enter') {
       if (event.ctrlKey) {
         event.preventDefault();
-        const id = uuid();
-        dispatch(sendMessage({
-          self: user.sub, peer, message: text, id,
-        }));
-        setMessageID(id);
+        handleSendMessage();
       }
     }
   };
   return (
-    <ReactQuill
-      className={styles.editor}
-      value={text}
-      onChange={handleChange}
-      onKeyDown={handleKeyPressed}
-      readOnly={!peer}
-      placeholder="Press Control + Enter key to send a message"
-    />
+    <div className={styles.editorContainer}>
+      <ReactQuill
+        className={styles.editor}
+        value={text}
+        onChange={handleChange}
+        onKeyDown={handleKeyPressed}
+        readOnly={!peer}
+        placeholder="Press Control + Enter key to send a message"
+      />
+      <Toolbar handleSendMessage={handleSendMessage}/>
+    </div>
   );
 };
 export default MessageEditor;

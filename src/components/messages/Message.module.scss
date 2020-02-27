@@ -1,11 +1,12 @@
 .messageContainer {
   margin: 0.5em;
+  text-align: right;
   .message {
     display: inline-block;
     padding: 0.5em;
     border: 1px dotted #ced4da;
     border-radius: .5rem;
-    text-align: left;
+    //text-align: left;
     p {
       margin: 0.5em;
     }
@@ -16,15 +17,16 @@
   }
 
   .self {
-    background-color: #F6FFFA;
+    background-color: #AAC8D9; // #F6FFFA;
   }
 
   .peer {
     margin: auto 0 auto auto;
-    background-color: #FEF3F1;
+    background-color: #D9AAAA; // #FEF3F1;
+    //text-align: left;
   }
 }
 
 .peer {
-  text-align: right;
+  text-align: left;
 }

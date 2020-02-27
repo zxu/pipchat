@@ -12,21 +12,21 @@
         height: 60%; // calc(100% - 4em);
         max-height: calc(100% - 4em);
         margin: 0 2px 2px 2px;
-        border: 1px solid #ced4da;
+        border: 1px solid #8c8c8c;
         border-radius: .25rem;
       }
 
       .messageEditor {
         height: calc(40% - 2px);
         margin: 2px 2px auto 2px;
-        border: 1px solid #ced4da;
+        border: 1px solid #8c8c8c;
         border-radius: .25rem;
         overflow-y: auto;
       }
     }
 
     > div:first-of-type {
-      border: 1px solid #ced4da;
+      border: 1px solid #8c8c8c;
       margin-right: 1px;
       display: flex;
       p {

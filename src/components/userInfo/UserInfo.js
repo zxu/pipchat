@@ -9,7 +9,7 @@ const UserInfo = () => {
     <div className={styles.userInfo}>
       <div className={styles.title}>Logged in as</div>
       <div className={styles.name}>{name}</div>
-      <code>{sub}</code>
+      <code className={styles.sub}>{sub}</code>
     </div>
   );
 };
