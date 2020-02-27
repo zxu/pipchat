@@ -17,7 +17,12 @@ const Messages = () => {
 
   return (
     <div className={styles.messagesContainer}>
-      {peer && peers && <div className={styles.title}>{`Conversation with ${peers.find((p) => p.id === peer).name}`}</div>}
+      {peer && peers && (
+      <div className={styles.title}>
+        {'Conversation with '}
+        <span>{peers.find((p) => p.id === peer).name}</span>
+      </div>
+      )}
       <div className={styles.messages} ref={inputRef}>
         {messages.map(
           (m, i) => <Message key={`${peer}-${i}`} data={m} />,

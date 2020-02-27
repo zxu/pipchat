@@ -19,8 +19,6 @@ const NavBar = () => {
       return;
     }
 
-    console.log('User', user);
-
     async function fetchData() {
       try {
         const token = await getTokenSilently();

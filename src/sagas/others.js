@@ -7,8 +7,6 @@ export function* otherSideEffects() {
   while (true) {
     const action = yield take([loginSuccess]);
 
-    console.log('Login success. Generate key pair now.');
-
     const keyPair = generateKeyPair();
 
     const encodedKeyPair = encodeKey(keyPair);

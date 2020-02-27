@@ -33,7 +33,6 @@ export const slice = createSlice({
       state.conversation[peer].push(payload);
     },
     receiveAck(state, { payload }) {
-      console.log('Acknowledge received', payload);
       if (payload.id) {
         state.sendQueue[payload.id] = true;
       }
@@ -106,19 +105,27 @@ export const sendMessage = ({
   const { secretKey } = fetchKeys(getState());
   const publicKey = fetchPeerPublicKey(getState(), peer);
 
-  console.log('public key: ', publicKey);
+  if (!publicKey || publicKey === '') {
+    return;
+  }
 
-  const encryptedMessage = encrypt(secretKey, message, decodeKey(publicKey));
-  dispatch(send({
-    self, peer, message, encryptedMessage, id, timestamp: moment().format('LT'),
-  }));
+  try {
+    const encryptedMessage = encrypt(secretKey, message, decodeKey(publicKey));
+    dispatch(send({
+      self, peer, message, encryptedMessage, id, timestamp: moment().format('LT'),
+    }));
+  } catch (error) {
+    console.warn(error);
+  }
 };
 
 export const receiveMessage = ({ self, message, encrypted }) => async (dispatch, getState) => {
   if (encrypted) {
     const { secretKey } = fetchKeys(getState());
     const publicKey = fetchPeerPublicKey(getState(), self);
-    message = decrypt(secretKey, message, decodeKey(publicKey));
+    if (publicKey) {
+      message = decrypt(secretKey, message, decodeKey(publicKey));
+    }
   }
   dispatch(receive({ self, message, timestamp: moment().format('LT') }));
 };

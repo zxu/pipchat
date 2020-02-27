@@ -43,7 +43,6 @@ const MessageEditor = () => {
       }
     }
   };
-  console.log(`***${text}====`);
   return (
     <div className={styles.editorContainer}>
       <ReactQuill

@@ -7,7 +7,6 @@ import styles from 'App.module.scss';
 import MessageEditor from 'components/messageEditor/MessageEditor';
 import PeerList from 'components/peerList/PeerList';
 import Messages from 'components/messages/Messages';
-import Toolbar from 'components/toolbar/Toolbar';
 
 const App = () => {
   const { loading, user } = useAuth0();
@@ -19,7 +18,6 @@ const App = () => {
         {!loading
           && (
           <Row>
-            {/*<Col><p>User List</p></Col>*/}
             <Col>{user && <PeerList />}</Col>
             <Col xs={8}>
               <Row className={styles.messages}>
@@ -28,9 +26,6 @@ const App = () => {
               <Row className={styles.messageEditor}>
                 <MessageEditor />
               </Row>
-              {/*<Row className={styles.toolbar}>*/}
-              {/*  <Toolbar />*/}
-              {/*</Row>*/}
             </Col>
           </Row>
           )}

@@ -6,7 +6,7 @@
     flex-wrap: nowrap;
     > div {
       border-radius: .25rem;
-      height: calc(100vh - 4rem);
+      height: calc(100vh - 5rem);
       padding: 0;
       .messages {
         height: 60%; // calc(100% - 4em);
@@ -37,7 +37,7 @@
 
     @media (max-width: 1200px) {
       > div {
-        height: calc(100vh - 3rem - 3.3vw);
+        height: calc(100vh - 2.5rem - 3.3vw);
       }
     }
   }

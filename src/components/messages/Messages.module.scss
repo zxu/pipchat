@@ -1,7 +1,6 @@
 .messagesContainer {
   width: 100%;
   height: 100%;
-  //max-height: calc(100% - 12px);
   .title {
     margin: 0;
     width: 100%;
@@ -10,6 +9,13 @@
     line-height: 3em;
     border-bottom: 1px solid #ccc;
     background-color: #eaecec;
+
+    span {
+      background-color: #D9AAAA;
+      border: 1px solid red;
+      border-radius: 2px;
+      padding: 0 4px;
+    }
   }
   .messages {
     width: 100%;
