@@ -3,7 +3,7 @@ This is the React front-end for the end-to-end encrypted chat application. The n
 
 [A live demo](https://pipchat.xuzhuang.org).
 ## Features
-![GIF demo](doc/pipchat.gif?raw=true "GIF demo")
+![GIF demo](docs/pipchat.gif?raw=true "GIF demo")
 ### Social media authentication
 It supports authentication using social media accounts such as *Google*, *Twitter*, *Microsoft account* and *LinkedIn*.
 ### End-to-end encryption
