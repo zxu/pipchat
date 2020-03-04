@@ -36,11 +36,18 @@ export const slice = createSlice({
       state.peer = payload;
     },
     receivePeerList(state, { payload }) {
-      state.peers = payload.peers;
+      // state.peers = payload.peers;
+
+      payload.peers.forEach((p) => {
+        const existingPeer = state.peers.find((u) => u.id === p.id);
+        if (!existingPeer) {
+          state.peers.push(p);
+        }
+      });
 
       // We need to clear out the previously selected peer, because its corresponding
       // public key may have been lost when we receive a new peer list.
-      if (!(payload.peers.find((p) => p.id === state.peer))) {
+      if (!(state.peers.find((p) => p.id === state.peer))) {
         state.peer = null;
       }
     },

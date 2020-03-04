@@ -102,7 +102,8 @@ export function* watchOutboundWSMessages() {
 
     if (action.type === checkinSuccess.type) {
       const { payload: { user } } = action;
-      yield call(sendMessage, { self: user.sub });
+      yield call(sendMessage, { self: user.sub }); // Register the socket object with the server
+      yield put(sendPublicKey({})); // Broadcast public key to all peers
     }
 
     if (action.type === send.type) {
